@@ -1,8 +1,8 @@
 (ns issue-data-corruption.subs
   (:require
-   [re-frame.core :as re-frame]))
+    [re-frame.core :as rf]))
 
-(re-frame/reg-sub
- ::name
- (fn [db]
-   (:name db)))
+(rf/reg-sub
+  ::certificates
+  (fn [db]
+    (:certificates db)))

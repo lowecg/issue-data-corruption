@@ -1,12 +1,12 @@
 {:nrepl {:port 8777}
 
- 
-
  :source-paths ["src" "test"]
 
  :dependencies
  [[reagent "1.1.0"]
   [re-frame "1.2.0"]
+  [arttuka/reagent-material-ui "4.11.3-2"]
+  [fork/fork "2.4.1"]
 
   [binaryage/devtools "1.0.3"]]
 
