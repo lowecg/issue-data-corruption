@@ -41,9 +41,11 @@
                   :keywordize-keys   true
                   :prevent-default?  true
                   :clean-on-unmount? true
+                  :initial-values    {:certifications {:cdf53254-ed48-4e91-b3cf-4fd03dc7d6e0 {:description "Initial Value"}}}
                   :on-submit         #(rf/dispatch [:issue-data-corruption.events/submit %])}
        (fn [{:keys [form-id
                     values
+                    dirty
                     handle-submit] :as form-props}]
          [:form
           {:id        form-id
@@ -52,19 +54,22 @@
           (println "VALUES (as received from Fork)")
           (cljs.pprint/pprint values)
 
+          (str "dirty: " (with-out-str (cljs.pprint/pprint dirty)))
+
           (for [certificate-id @(rf/subscribe [:issue-data-corruption.subs/certificates])]
             ^{:key certificate-id}
-            [certification {:form-props     form-props
-                            :certificate-id certificate-id
+            [certification {:get-props (fn []
+                                         {:form-props     form-props
+                                          :certificate-id certificate-id
 
-                            ;; Explicit structure, similar to that which will be used in the form values. Also exhibits
-                            ;; the issue (see print output at the as the first line of this component)
-                            ;;
-                            ;; The output should match the following - note the corruption of the UUID formatting:
-                            ;; TEST-PROPS
-                            ;; {:certificates
-                            ;;  {:cdf-53254-ed-484e-91-b-3cf-4fd-03dc-7d-6e-0 {:description "d"}}}
-                            :test-props     {:certificates {:cdf53254-ed48-4e91-b3cf-4fd03dc7d6e0 {:description "d"}}}}]
+                                          ;; Explicit structure, similar to that which will be used in the form values. Also exhibits
+                                          ;; the issue (see print output at the as the first line of this component)
+                                          ;;
+                                          ;; The output should match the following - note the corruption of the UUID formatting:
+                                          ;; TEST-PROPS
+                                          ;; {:certificates
+                                          ;;  {:cdf-53254-ed-484e-91-b-3cf-4fd-03dc-7d-6e-0 {:description "d"}}}
+                                          :test-props     {:certificates {:cdf53254-ed48-4e91-b3cf-4fd03dc7d6e0 {:description "d"}}}})}]
             )])]]]]])
 
 (defn main-panel []

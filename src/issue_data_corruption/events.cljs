@@ -11,9 +11,12 @@
 
 (rf/reg-event-fx
   ::submit
-  (fn [{:keys [db]} [_ {:keys [values, path]}]]
+  (fn [{:keys [db]} [_ {:keys [values, path, reset]}]]
 
     (println "Submit values" values)
 
-    {:db (-> db
+    (reset {:initial-values values
+            :values         values})
+
+    {:db db #_(-> db
              (fork/set-submitting path true))}))
